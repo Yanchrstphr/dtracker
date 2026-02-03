@@ -1,0 +1,9 @@
+{
+  "name": "DTracker - Ultimate Debt Management",
+  "description": "Professional financial ledger for tracking personal debts and repayments.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
