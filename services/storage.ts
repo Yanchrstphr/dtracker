@@ -7,11 +7,20 @@ const getDebtsKey = (userId: string) => `dtracker_${userId}_debts`;
 const getNotifsKey = (userId: string) => `dtracker_${userId}_notifs`;
 const getSettingsKey = (userId: string) => `dtracker_${userId}_settings`;
 
+const safeJsonParse = <T>(data: string | null, fallback: T): T => {
+  if (!data) return fallback;
+  try {
+    return JSON.parse(data);
+  } catch {
+    return fallback;
+  }
+};
+
 export const storage = {
   // User Management
   getUsers: (): User[] => {
     const data = localStorage.getItem(USERS_KEY);
-    const users = data ? JSON.parse(data) : [];
+    const users = safeJsonParse<User[]>(data, []);
     // Always ensure mock users exist for testing
     const combined = [...MOCK_USERS];
     users.forEach((u: User) => {
@@ -35,7 +44,7 @@ export const storage = {
   // Debt Management
   getDebts: (userId: string): Debt[] => {
     const data = localStorage.getItem(getDebtsKey(userId));
-    return data ? JSON.parse(data) : [];
+    return safeJsonParse<Debt[]>(data, []);
   },
   saveDebts: (userId: string, debts: Debt[]) => {
     localStorage.setItem(getDebtsKey(userId), JSON.stringify(debts));
@@ -44,7 +53,7 @@ export const storage = {
   // Notifications
   getNotifications: (userId: string): AppNotification[] => {
     const data = localStorage.getItem(getNotifsKey(userId));
-    return data ? JSON.parse(data) : [];
+    return safeJsonParse<AppNotification[]>(data, []);
   },
   saveNotifications: (userId: string, notifs: AppNotification[]) => {
     localStorage.setItem(getNotifsKey(userId), JSON.stringify(notifs.slice(0, 50)));
@@ -53,7 +62,7 @@ export const storage = {
   // Settings
   getSettings: (userId: string): UserSettings => {
     const data = localStorage.getItem(getSettingsKey(userId));
-    return data ? JSON.parse(data) : DEFAULT_SETTINGS;
+    return safeJsonParse<UserSettings>(data, DEFAULT_SETTINGS);
   },
   saveSettings: (userId: string, settings: UserSettings) => {
     localStorage.setItem(getSettingsKey(userId), JSON.stringify(settings));

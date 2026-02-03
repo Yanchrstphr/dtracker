@@ -28,7 +28,7 @@ export const generatePaymentSchedule = (
   for (let i = 0; i < installments; i++) {
     const dueDate = addMonths(start, i);
     schedules.push({
-      id: Math.random().toString(36).substr(2, 9),
+      id: Math.random().toString(36).substring(2, 11),
       dueDate: dueDate.toISOString(),
       amount: amountPerMonth,
       status: PaymentStatus.PENDING,
