@@ -87,7 +87,7 @@ const App: React.FC = () => {
     }
 
     const newUser: User = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: Math.random().toString(36).substring(2, 11),
       name: nameInput,
       email: emailInput,
       password: passwordInput,
@@ -181,17 +181,17 @@ const App: React.FC = () => {
     }));
   };
 
-  const handleAddDebt = (data: any) => {
+  const handleAddDebt = (data: Omit<Debt, 'id' | 'createdAt'>) => {
     const newDebt: Debt = {
       ...data,
-      id: Math.random().toString(36).substr(2, 9),
+      id: Math.random().toString(36).substring(2, 11),
       createdAt: new Date().toISOString()
     };
     setDebts([newDebt, ...debts]);
     setShowForm(false);
     
     const newNotif: AppNotification = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: Math.random().toString(36).substring(2, 11),
       userId: currentUser!.id,
       title: 'New Debt Tracked',
       message: `Agreement "${data.title}" has been successfully configured.`,
